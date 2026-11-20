@@ -1,0 +1,8 @@
+# Box credentials and participant videos: never commit
+box.env
+video_uploads/
+db.sqlite3
+__pycache__/
+*.pyc
+.DS_Store
+study.env

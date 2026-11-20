@@ -1,0 +1,54 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<h2><strong>Research Communication Task</strong></h2>
+
+<div id="fixedTimer">Time Remaining: <span id="timerValue">3:00</span></div>
+
+<div class="q-block">
+<p>Below is a short research article summary. Your goal is to communicate the main takeaway as clearly and accurately to potential readers, using:</p>
+<ul>
+	<li><p><strong>A short headline (one sentence or less)</strong>, and</p></li>
+	<li><p><strong>A 2- to 3-sentence summary</strong>&nbsp;of the article’s main takeaway.</p></li>
+</ul>
+<p>&nbsp;</p>
+<p>Please write in your own words. Do not copy sentences directly from the abstract.</p>
+</div>
+
+<div class="q-block">
+<div style="width:100%; margin:0; line-height:1.5; border:1px solid #d6e4ff; padding:20px;"><strong>Introduction</strong><br>
+Companies often use financial bonuses to motivate employees. But does the promise of a bonus actually improve the quality of work — or does it just make workers go faster? And does the answer change depending on whether workers know their performance is being monitored?<br>
+<br>
+We predicted that financial incentives would improve both the speed and quality of work. We also predicted that adding performance monitoring — telling workers their output would be reviewed — would further boost quality, particularly when combined with a bonus.<br>
+<br>
+<strong>Methods</strong><br>
+We recruited 320 adults on an online platform to complete a data-coding task: reviewing short survey responses and assigning each one a category label. Participants were randomly assigned to one of four conditions in a 2×2 design:
+<ul style="margin:10px 0 14px 22px;">
+	<li><strong>Incentive:</strong> participants either received a flat payment regardless of performance (no bonus) or were told they would earn an additional $2 for every 10 responses coded correctly (bonus).</li>
+	<li><strong>Monitoring:</strong> participants were either told nothing about review (no monitoring) or were told that a research assistant would spot-check 20% of their responses for accuracy (monitoring).</li>
+</ul>
+We measured two outcomes: the number of responses coded per minute (speed) and the percentage of responses coded correctly (accuracy).<br>
+<br>
+<strong>Results</strong><br>
+Offering a bonus significantly increased coding speed: participants in the bonus conditions coded an average of 4.2 responses per minute, compared to 3.1 in the no-bonus conditions. However, the bonus had no significant effect on accuracy overall.<br>
+<br>
+The effect of monitoring depended on whether a bonus was also present. In the no-bonus conditions, monitoring had little effect on either speed or accuracy. But in the bonus conditions, adding monitoring significantly improved accuracy — from 71% correct (bonus only) to 84% correct (bonus + monitoring) — while leaving speed unchanged.
+<div style="text-align: center;">&nbsp;<img src="{{ static 'global/img/results.png' }}" style="width: 700px; max-width:100%; height: auto;" alt="Results figure"></div>
+</div>
+</div>
+
+<div class="q-block">
+  <div class="q-text">Headline:&nbsp;</div>
+  <textarea name="comm_headline" class="q-textarea" rows="1" style="width:495px; max-width:100%;"></textarea>
+</div>
+
+<div class="q-block">
+  <div class="q-text">Summary:</div>
+  <textarea name="comm_summary" class="q-textarea" rows="3" style="width:487px; max-width:100%;"></textarea>
+</div>
+
+<input type="hidden" name="comm_focus_lost" data-ac="focus_lost" value="0">
+<input type="hidden" name="comm_copy_paste" data-ac="copy_paste" value="0">
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

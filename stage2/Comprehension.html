@@ -1,0 +1,54 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div style="max-width:900px; margin:0 auto; line-height:1.5;">
+<p>Before you begin recording, please answer the following questions about the instructions. You must answer all questions correctly to continue.</p>
+
+<details style="margin-bottom:24px;"><summary style="cursor:pointer; padding:6px 0; color:#1e40af;">Review the instructions</summary>
+<div style="padding:12px 0 0 0;">
+<div style="background:#f5f9ff; border:1px solid #d6e4ff; border-left:6px solid #4a90e2; border-radius:8px; padding:18px 20px; margin-bottom:18px;">
+<div style="font-weight:700; font-size:18px; margin-bottom:10px;">Video Recording Instructions</div>
+<ul style="margin:0; padding-left:22px;">
+	<li style="margin-bottom:10px;">You will record three short videos (Video A, Video B, and Video C). Each video responds to a different prompt.</li>
+	<li style="margin-bottom:10px;">Each video can be up to <strong>1 minute</strong> long.</li>
+	<li style="margin-bottom:10px;">You may <strong>re-record each video up to 2 times</strong>. Your last recording of each video is the one that counts.</li>
+	<li>Your background will be blurred automatically during recording.</li>
+</ul>
+</div>
+
+<div class="privacy-box" style="padding:18px 20px;">
+<div style="font-weight:700; font-size:18px; margin-bottom:10px;">Important Privacy Rules</div>
+<ul style="margin:0; padding-left:22px;">
+	<li style="margin-bottom:10px;">Do not include identifying or sensitive personal information in your recording about yourself or others, such as <strong>your full name, contact information, or age.</strong></li>
+	<li style="margin-bottom:10px;">If you would like to introduce yourself by name, you may use an <strong>alias</strong> (a made-up name) instead of your real name.</li>
+	<li style="margin-bottom:10px;">Any audio recording should be made only in a private space so that no passerby is inadvertently recorded.</li>
+	<li>Failure to follow these guidelines may result in forfeiture of any potential bonus in the study.</li>
+</ul>
+</div>
+
+</div>
+</details>
+
+<div class="q-block">
+  <div class="q-text">1. How many videos will you record?</div>
+  <div class="q-choices">{{ for choice in form.comp_1 }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'comp_1' }}
+</div>
+<div class="q-block">
+  <div class="q-text">2. What is the maximum length of each video?</div>
+  <div class="q-choices">{{ for choice in form.comp_2 }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'comp_2' }}
+</div>
+<div class="q-block">
+  <div class="q-text">3. How many times can you re-record each video?</div>
+  <div class="q-choices">{{ for choice in form.comp_3 }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'comp_3' }}
+</div>
+<div class="q-block">
+  <div class="q-text">4. Which of the following should you NOT include in your videos?</div>
+  <div class="q-choices">{{ for choice in form.comp_4 }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'comp_4' }}
+</div>
+</div>
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

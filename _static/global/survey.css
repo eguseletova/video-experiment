@@ -1,0 +1,126 @@
+/* Qualtrics-like survey look */
+body {
+  background: #f3f3f3;
+  color: #222;
+  font-size: 18px;
+}
+.otree-body.container {
+  max-width: 980px;
+  background: #fff;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 40px 50px 30px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.otree-title:empty { display: none; }
+.powered-by-otree { display: none; }
+
+/* oTree's own countdown is hidden; a Qualtrics-style fixed box mirrors it */
+.otree-timer { display: none !important; }
+
+.q-block { margin: 0 0 34px 0; }
+.q-text { margin-bottom: 14px; line-height: 1.5; }
+.q-sep { border: 0; border-top: 1px solid #e3e3e3; margin: 30px 0; }
+
+/* radio / checkbox choices */
+.q-choices { display: flex; flex-direction: column; gap: 8px; }
+.q-choice {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #ddd; border-radius: 6px;
+  background: #fafafa; cursor: pointer;
+  margin: 0; font-weight: normal;
+}
+.q-choice:hover { background: #f0f4ff; border-color: #b9c8ee; }
+.q-choice input { width: 18px; height: 18px; margin: 0; flex: 0 0 auto; }
+.q-choice .inline-text { margin-left: 8px; flex: 1; max-width: 320px; }
+
+.q-input-text, .q-textarea, .q-select {
+  font-size: 17px; padding: 6px 8px;
+  border: 1px solid #bbb; border-radius: 4px;
+}
+.q-select { min-width: 120px; }
+
+.field-error { color: #c0392b; font-size: 15px; margin-top: 6px; }
+
+/* Next button (Qualtrics " → ") */
+.nav-row { display: flex; justify-content: flex-end; margin-top: 30px; }
+#NextButton {
+  font-size: 22px; padding: 8px 26px;
+  background: #1e40af; color: #fff;
+  border: none; border-radius: 4px; cursor: pointer;
+}
+#NextButton:hover { background: #1b3a9c; }
+#NextButton:disabled { background: #9aa6c8; cursor: not-allowed; }
+
+/* Fixed countdown (Qualtrics QID27/51/81) */
+#fixedTimer {
+  position: fixed; top: 20px; right: 20px;
+  background: #1e40af; color: white;
+  padding: 10px 16px; border-radius: 8px;
+  font-size: 18px; font-family: inherit;
+  z-index: 99999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+/* Slider (Qualtrics HSLIDER 0-100) */
+.q-slider { max-width: 640px; }
+.q-slider .slider-row { display: flex; align-items: center; gap: 18px; }
+.q-slider input[type=range] { flex: 1; }
+.q-slider input[type=range].untouched::-webkit-slider-thumb { opacity: 0.35; }
+.q-slider input[type=range].untouched::-moz-range-thumb { opacity: 0.35; }
+.q-slider .slider-value {
+  min-width: 52px; text-align: center;
+  border: 1px solid #ccc; border-radius: 4px; padding: 4px 6px;
+}
+.q-slider .slider-ticks {
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: #555;
+  margin-right: 70px; padding: 0 2px;
+}
+
+/* Error-detection tables */
+.bit-table { margin-left: 40px; border-collapse: separate; border-spacing: 12px 6px; }
+.bit-table td { font-family: "Courier New", Courier, monospace; font-size: 18px; text-align: center; }
+.bit-answer { width: 70px; height: 35px; }
+
+/* Data table in quant Q6 */
+.yn-table td { padding: 8px 18px; }
+
+/* Developer-mode review marker */
+.dev-check { color: #dc2626; font-weight: 800; font-size: 28px; letter-spacing: 1px; margin-bottom: 14px; }
+
+/* Important privacy cautions: light red */
+.privacy-box {
+  background: #fdecec; border: 1px solid #f5c2c2; border-left: 6px solid #dc2626;
+  border-radius: 10px; padding: 16px 18px; margin-bottom: 20px;
+}
+
+/* Likert matrices (questionnaires) */
+.matrix { width: 100%; border-collapse: collapse; font-size: 16px; }
+.matrix th { font-weight: 600; font-size: 14px; text-align: center; padding: 8px 4px; vertical-align: bottom; background: #f6f7f9; position: sticky; top: 0; }
+.matrix td { padding: 10px 4px; border-top: 1px solid #e5e5e5; text-align: center; }
+.matrix td.item { text-align: left; padding-right: 12px; }
+.matrix tr.missing td { background: #fdecec; }
+.matrix input[type=radio] { width: 18px; height: 18px; }
+.matrix th.group { border-left: 2px solid #ccc; }
+.matrix td.group-start { border-left: 2px solid #ccc; }
+
+/* MPL */
+.mpl td, .mpl th { padding: 8px 10px; }
+.mpl td.price { font-weight: 600; text-align: center; white-space: nowrap; }
+.mpl label { cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: center; font-weight: normal; margin: 0; }
+
+/* Small toggleable pop-up in the top-right corner (video recording guidelines) */
+.corner-popup { position: fixed; right: 18px; top: 18px; z-index: 9999; max-width: 340px; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.corner-popup-toggle {
+  font-size: 14px; padding: 7px 12px; border-radius: 999px; cursor: pointer;
+  background: #fdecec; color: #991b1b; border: 1px solid #f5c2c2; box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.corner-popup-panel {
+  background: #fdecec; border: 1px solid #f5c2c2; border-radius: 10px;
+  padding: 12px 14px; font-size: 14px; line-height: 1.45; box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.corner-popup-panel ul { margin: 0; padding-left: 18px; }
+.corner-popup-panel li { margin-bottom: 6px; }

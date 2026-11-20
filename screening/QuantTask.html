@@ -1,0 +1,24 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<div id="fixedTimer">Time Remaining: <span id="timerValue">3:00</span></div>
+
+<h2><strong>Quantitative Analysis Task</strong></h2>
+<hr class="q-sep">
+
+{{ for q in questions }}
+<div class="q-block">
+  <div class="q-text">{{ q.text|safe }}</div>
+  <div class="q-choices">
+    {{ for c in q.choices }}
+    <label class="q-choice"><input type="radio" name="{{ q.key }}" value="{{ c.0 }}"> {{ c.1 }}</label>
+    {{ endfor }}
+  </div>
+</div>
+{{ endfor }}
+
+<input type="hidden" name="quant_focus_lost" data-ac="focus_lost" value="0">
+<input type="hidden" name="quant_copy_paste" data-ac="copy_paste" value="0">
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

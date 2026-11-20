@@ -1,0 +1,86 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">
+<div style="max-width:900px; margin:0 auto; line-height:1.5">
+<div style="border-left:6px solid #2b6cb0; background:#eef4ff; padding:16px 18px; border-radius:10px; margin-bottom:24px;">
+<div style="font-weight:700; margin-bottom:6px;">Camera &amp; Microphone Check</div>
+<div>Participation in this study requires a camera and microphone. Please test your camera and microphone before beginning.</div>
+</div>
+
+<ol style="padding-left:22px; margin-bottom:28px;">
+	<li style="margin-bottom:16px;">Click <span style="display:inline-block; padding:3px 12px; border:1px solid #d1d5db; background:#f3f4f6; border-radius:999px; font-weight:600;"> Test Camera &amp; Microphone </span>.
+	<div style="margin-top:6px; color:#374151;">Grant permission when your browser requests access.</div>
+	</li>
+	<li style="margin-bottom:16px;">When your video appears, position yourself within the on-screen framing guide.</li>
+	<li style="margin-bottom:16px;">Click <span style="display:inline-block; padding:3px 12px; border:1px solid #d1d5db; background:#f3f4f6; border-radius:999px; font-weight:600;"> Record 5-Second Test </span>.
+	<div style="margin-top:6px; color:#374151;">Review the recording to confirm that both video and audio are working properly. You may record as many test videos as you like, to adjust your camera and microphone.</div>
+	</li>
+</ol>
+
+<div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px 16px; margin-bottom:26px; font-size:16px;"><strong>Privacy Note:&nbsp;</strong>Test recordings are <strong>not saved, stored, or viewed&nbsp;</strong>by the research team. They are automatically deleted when you leave this page.</div>
+
+<details style="margin-top:24px; border:1.5px solid #e6c200; border-left:6px solid #d4a700; border-radius:10px; background:#fffbe6; font-size:16px;"><summary style="font-weight:700; cursor:pointer; padding:14px 16px; list-style:none; display:flex; justify-content:space-between; align-items:center;"> <span>⚠ If your camera or microphone does not work (Click to expand)</span> <span style="font-size:14px;">▼</span> </summary>
+<div style="padding:0 16px 16px 16px; color:#374151;">
+<ul style="margin:0; padding-left:20px;">
+	<li>Refresh this page and try again.</li>
+	<li>Check your browser settings to confirm camera and microphone access are enabled for this site.</li>
+	<li>Close other applications (e.g., Zoom, Teams) that may be using your camera or microphone.</li>
+</ul>
+<div style="margin-top:12px;">If your camera and microphone cannot be accessed, you will not be able to participate in this study.</div>
+</div>
+</details>
+</div>
+</div>
+
+<div class="q-block">
+<div style="text-align:center; max-width:700px; margin:0 auto;">
+<p>&nbsp;</p>
+<div id="previewContainer" style="position:relative; width:100%; max-width:500px; margin:0 auto; background:#000; border-radius:8px; overflow:hidden;">
+<canvas id="previewCanvas" style="width:100%; height:auto; display:block; min-height:280px;"></canvas>
+<div id="blurBadge" style="position:absolute; top:10px; left:10px; padding:3px 10px; border-radius:999px; color:#fff; font-size:13px; background:rgba(0,0,0,0.55); z-index:2;">Camera off</div>
+<svg id="framingGuide" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;" viewBox="0 0 100 100"> <ellipse cx="50" cy="45" fill="none" rx="18" ry="24" stroke="rgba(255,255,255,0.9)" stroke-dasharray="3 3" stroke-width="1.6"></ellipse> <path d="M 18 92 C 28 70, 72 70, 82 92" fill="none" stroke="rgba(255,255,255,0.9)" stroke-dasharray="3 3" stroke-width="1.6"></path> </svg></div>
+
+<div style="margin-top:25px;"><button id="testCameraBtn" type="button" style="padding:10px 20px; font-size:16px; cursor:pointer;">Test Camera &amp; Microphone</button><button id="recordTestBtn" style="display:none; padding:10px 20px; font-size:16px; cursor:pointer; margin-left:10px;" type="button">Record 5-second Test</button></div>
+
+<div id="prepCountdown" style="margin-top:15px; font-size:18px; font-weight:bold; color:#444; display:none;">&nbsp;</div>
+<div id="timeRemaining" style="margin-top:10px; font-size:14px; color:#444; display:none;"></div>
+<div id="recordProgressWrap" style="width:320px; height:12px; background:#ddd; margin:12px auto 0; border-radius:6px; overflow:hidden; display:none;">
+<div id="recordProgressBar" style="height:100%; width:100%; background:#2ecc71;">&nbsp;</div>
+</div>
+
+<div style="margin-top:25px;">
+<div style="font-size:14px; color:#4b5563;">Microphone level:</div>
+<div style="width:300px; height:15px; background:#ddd; margin:10px auto; border-radius:6px;">
+<div id="audioLevelBar" style="height:100%; width:0%; background:green; border-radius:6px;">&nbsp;</div>
+</div>
+</div>
+
+<div id="playbackWrap" style="display:none; margin-top:25px;">
+<div style="margin-bottom:10px;">Playback of your 5-second test recording:</div>
+<video controls id="playbackVideo" playsinline style="width:100%; max-width:500px; background:#000; border-radius:8px;"></video>
+<div style="margin-top:10px; font-size:12px; color:#666;">This test recording will be deleted automatically when you leave this page.</div>
+</div>
+
+<div id="statusMessage" style="margin-top:20px; font-size:14px; color:#444;">&nbsp;</div>
+</div>
+
+<div id="confirmWrap" style="display:none; max-width:700px; margin:22px auto 0; text-align:center;">
+  <div style="margin-bottom:10px; font-size:18px; font-family:inherit;">
+    Have you confirmed that your video and audio are working properly?
+  </div>
+  <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center;">
+    <button id="confirmYesBtn" type="button">Yes — confirm and continue</button>
+    <button id="confirmNoBtn" type="button">No — audio/video not working</button>
+  </div>
+  <div id="confirmStatus" style="margin-top:10px; font-size:16px; color:#4b5563; font-family:inherit;"></div>
+</div>
+<input id="avConfirmInput" name="av_test_confirm" type="hidden" value="">
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/js/blur_camera.js' }}"></script>
+<script src="{{ static 'global/js/av_check.js' }}"></script>
+{{ endblock }}

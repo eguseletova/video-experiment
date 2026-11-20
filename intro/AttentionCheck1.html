@@ -1,0 +1,13 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">
+  <div class="q-text">
+    <p>People have many different hobbies and ways of spending their free time. We are interested in whether you read instructions carefully. To show that you have read this, please ignore the question below and select <strong>"None of the above"</strong> as your answer.</p>
+    <p>Which of the following activities do you enjoy most in your free time?</p>
+  </div>
+  <div class="q-choices">{{ for choice in form.attention_check_1 }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'attention_check_1' }}
+</div>
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

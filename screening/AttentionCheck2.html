@@ -1,0 +1,13 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">
+  <div class="q-text">
+    <p>Please indicate how much you agree with the following statement.</p>
+    <p><em>"I enjoy completing tasks that require careful attention. It is important that you pay attention to this study, so please select 'Somewhat disagree' for this statement."</em></p>
+  </div>
+  <div class="q-choices">{{ for choice in form.attention_check_2 }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'attention_check_2' }}
+</div>
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

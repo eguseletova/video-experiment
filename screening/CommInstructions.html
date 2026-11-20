@@ -1,0 +1,39 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<div style="max-width:900px; margin:0 auto; line-height:1.5;">
+<h3 style="margin: 0px 0px 18px; font-size: 20px; color: rgb(31, 59, 115); text-align: center;"><strong>Screener 3 out of 3: Research Communication Task</strong></h3>
+
+<p>&nbsp;</p>
+<p>This screening task is designed to assess your research communication skills.<br />
+<br />
+You will read a short research article summary. Your goal is to communicate the main takeaway as clearly and accurately to potential readers, using:</p>
+
+<ul>
+	<li><p><strong>A short headline</strong>, and</p></li>
+	<li><p><strong>A 2- to 3-sentence summary</strong> of the article&rsquo;s main takeaway.</p></li>
+</ul>
+
+<p>&nbsp;</p>
+<p>You have <strong>3&nbsp;minutes</strong> to complete this task. Please write your own response in your own words.</p>
+<p>&nbsp;</p>
+
+<p><strong>How You Will Be Assessed</strong></p>
+<ul>
+	<li>In a later study, other participants will read your headline and summary. They will then answer a question about the article&rsquo;s main finding <u>based only on what you wrote</u>.</li>
+	<li>Your score on this task will be based on how many readers correctly identify the main finding from your headline and summary. For example, if 8 out of 10 readers answer correctly, your score on this task will be 8/10.</li>
+</ul>
+&nbsp;
+
+<p><strong>Your Bonus Earnings</strong></p>
+<p>This part of the study may be randomly selected to determine your bonus payment. If this is the &ldquo;part-that-counts,&rdquo; you will receive <strong>$0.10 for each reader that correctly identifies the main finding from your headline and summary.</strong><br />&nbsp;</p>
+
+<p><strong><span style="color:#c0392b;">Reminder: No cheating is allowed on this task. </span></strong>You may not use any outside tools or assistance, including calculators, search engines, AI tools (such as ChatGPT), or help from other people. Detection of cheating or failure to follow these instructions will result in forfeiture of any bonus payment.<br />&nbsp;</p>
+
+<p><strong>On the next page, your task will begin.</strong></p>
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}<script>enforceMinSeconds(10);</script>{{ endblock }}

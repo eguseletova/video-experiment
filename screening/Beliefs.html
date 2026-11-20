@@ -1,0 +1,50 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">Before proceeding, please answer the following questions.</div>
+
+<div class="q-block">
+  <div class="q-text">
+    {{ if reader }}
+    Out of the 10 readers who will evaluate your response on the&nbsp;<strong>{{ task }}</strong>&nbsp;task,  how many do you think will correctly identify the article’s main finding based on what you wrote?
+    {{ else }}
+    Out of the 10 questions on the <strong>{{ task }}</strong> task, how many questions do you think you answered correctly?
+    {{ endif }}
+  </div>
+  <select name="{{ f_correct }}" class="q-select" required>
+    <option value=""></option>
+    <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+    <option value="3">3</option><option value="4">4</option><option value="5">5</option>
+    <option value="6">6</option><option value="7">7</option><option value="8">8</option>
+    <option value="9">9</option><option value="10">10</option>
+  </select>
+  {{ formfield_errors f_correct }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">What percentage of participants working on the <strong>{{ task }}</strong>&nbsp;task do you think you outperformed?</div>
+  <div class="q-slider">
+    <div class="slider-ticks"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
+    <div class="slider-row">
+      <input type="range" min="0" max="100" step="1" value="0" class="untouched">
+      <span class="slider-value">&nbsp;</span>
+    </div>
+    <input type="hidden" name="{{ f_pct }}" id="pct-hidden" value="" data-wt="50">
+  </div>
+  <div class="field-error" id="pct-error" style="display:none;">Please answer this question.</div>
+  {{ formfield_errors f_pct }}
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script>
+  // Qualtrics "Force Response" for the slider.
+  document.getElementById('form').addEventListener('submit', function (e) {
+    if (document.getElementById('pct-hidden').value === '') {
+      e.preventDefault();
+      document.getElementById('pct-error').style.display = 'block';
+    }
+  });
+</script>
+{{ endblock }}

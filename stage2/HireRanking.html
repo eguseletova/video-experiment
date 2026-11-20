@@ -1,0 +1,66 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<style>
+  .rank-list { display: flex; flex-direction: column; gap: 10px; max-width: 700px; margin-top: 16px; }
+  .rank-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid #ddd;
+               border-radius: 8px; background: #fafafa; cursor: pointer; text-align: left; font-size: 17px; width: 100%; }
+  .rank-item:hover { background: #f0f4ff; border-color: #b9c8ee; }
+  .rank-item.ranked { background: #eef4ff; border-color: #1e40af; }
+  .rank-badge { flex: 0 0 34px; height: 34px; border-radius: 50%; border: 2px dashed #bbb; display: flex;
+                align-items: center; justify-content: center; font-weight: 700; color: #1e40af; }
+  .rank-item.ranked .rank-badge { border: 2px solid #1e40af; background: #fff; }
+  .rank-prompt { font-size: 14px; color: #555; }
+</style>
+
+<div class="q-block" style="line-height:1.5;">
+  <p>Suppose the Recruiter could only see <strong>one</strong> of your videos.</p>
+  <p>Please rank your three videos from <strong>most</strong> likely to <strong>least</strong> likely to get you hired. Click the videos in order: first click the video most likely to get you hired, then the second, then the third.</p>
+
+  <div class="rank-list" id="rankList">
+    {{ for v in videos }}
+    <button type="button" class="rank-item" data-letter="{{ v.letter }}">
+      <span class="rank-badge"></span>
+      <span><span>Video {{ v.upper }}</span><br><span class="rank-prompt">{{ v.prompt }}</span></span>
+    </button>
+    <input type="hidden" name="rank_{{ v.letter }}" id="rank_{{ v.letter }}" value="" data-wt="{{ v.n }}">
+    {{ endfor }}
+  </div>
+  <p style="margin-top:10px;"><a href="#" id="rankReset" style="font-size:15px;">Start over</a></p>
+  <div class="field-error" id="rankError" style="display:none;">Please rank all three videos.</div>
+  {{ formfield_errors 'rank_a' }}
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script>
+  (function () {
+    const items = Array.from(document.querySelectorAll('.rank-item'));
+    let order = [];
+    function paint() {
+      items.forEach(function (it) {
+        const pos = order.indexOf(it.dataset.letter);
+        it.classList.toggle('ranked', pos >= 0);
+        it.querySelector('.rank-badge').textContent = pos >= 0 ? (pos + 1) : '';
+        document.getElementById('rank_' + it.dataset.letter).value = pos >= 0 ? (pos + 1) : '';
+      });
+    }
+    items.forEach(function (it) {
+      it.addEventListener('click', function () {
+        const l = it.dataset.letter, pos = order.indexOf(l);
+        if (pos >= 0) order = order.slice(0, pos);  // clicking a ranked video un-ranks it and those after it
+        else order.push(l);
+        document.getElementById('rankError').style.display = 'none';
+        paint();
+      });
+    });
+    document.getElementById('rankReset').addEventListener('click', function (e) { e.preventDefault(); order = []; paint(); });
+    document.getElementById('form').addEventListener('submit', function (e) {
+      if (order.length < items.length) { e.preventDefault(); document.getElementById('rankError').style.display = 'block'; }
+    });
+    paint();
+  })();
+</script>
+{{ endblock }}

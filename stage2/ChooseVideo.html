@@ -1,0 +1,70 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<style>
+  .video-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:26px; }
+  .video-card video { width:100%; background:#000; border-radius:6px; }
+  .video-card .missing { height:150px; display:flex; align-items:center; justify-content:center; background:#222; color:#bbb; border-radius:6px; font-size:14px; text-align:center; padding:8px; }
+  .send-btn { width:100%; margin-top:10px; font-size:16px; padding:9px; border:1px solid #bbb; border-radius:6px; background:#fff; cursor:pointer; }
+  .video-card.selected .send-btn { background:#1e40af; border-color:#1e40af; color:#fff; }
+</style>
+
+<div style="max-width:900px; margin:0 auto 26px; line-height:1.5;">
+  <p>Recruiters have limited time and a large number of candidates to get through. Because of this, Recruiters can only watch one video per candidate.</p>
+  <p>In addition to your application, you can send only one of your videos to support your application.</p>
+  <p>You can replay each of your videos below. Then click the button under the video you want to send to the Recruiter.</p>
+</div>
+
+<div class="video-grid">
+  {{ for v in videos }}
+  <div class="video-card" data-letter="{{ v.letter }}">
+    <div style="margin-bottom:4px;">Video {{ v.upper }}</div>
+    <div style="font-size:14px; color:#555; margin-bottom:10px; min-height:42px;">{{ v.prompt }}</div>
+    <div class="player-slot" data-key="{{ participant.code }}_{{ v.letter }}">
+      <div class="missing">Loading…</div>
+    </div>
+    <button type="button" class="send-btn">Send Video {{ v.upper }}</button>
+  </div>
+  {{ endfor }}
+</div>
+
+<input type="hidden" name="video_sent" id="videoSentInput" value="" data-wt="a">
+<div class="field-error" id="sentError" style="display:none;">Please choose which video to send.</div>
+{{ formfield_errors 'video_sent' }}
+
+<div class="nav-row"><button id="NextButton" type="submit" disabled>&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/js/video_store.js' }}"></script>
+<script>
+  // Replay: load each recording from this browser's IndexedDB (cosmetic; no server storage).
+  document.querySelectorAll('.player-slot').forEach(async function (slot) {
+    let blob = null;
+    try { blob = await VideoStore.get(slot.dataset.key); } catch (e) { console.error(e); }
+    if (blob) {
+      const vid = document.createElement('video');
+      vid.controls = true; vid.playsInline = true;
+      vid.src = URL.createObjectURL(blob);
+      slot.innerHTML = ''; slot.appendChild(vid);
+    } else {
+      slot.innerHTML = '<div class="missing">Recording not available in this browser</div>';
+    }
+  });
+
+  const input = document.getElementById('videoSentInput');
+  const next = document.getElementById('NextButton');
+  document.querySelectorAll('.video-card').forEach(function (card) {
+    card.querySelector('.send-btn').addEventListener('click', function () {
+      document.querySelectorAll('.video-card').forEach(function (c) {
+        c.classList.remove('selected');
+        c.querySelector('.send-btn').textContent = 'Send Video ' + c.dataset.letter.toUpperCase();
+      });
+      card.classList.add('selected');
+      card.querySelector('.send-btn').textContent = '✓ Sending Video ' + card.dataset.letter.toUpperCase();
+      input.value = card.dataset.letter;
+      document.getElementById('sentError').style.display = 'none';
+      next.disabled = false;
+    });
+  });
+</script>
+{{ endblock }}

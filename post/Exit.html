@@ -1,0 +1,19 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">
+  <div class="q-text"><strong>Thank you for completing our study!</strong><br /><br />
+  Please feel free to provide any comments for the researchers in the space below (optional).</div>
+  <textarea name="comments" class="q-textarea" rows="4" style="width:100%;">{{ if form.comments.data }}{{ form.comments.data }}{{ endif }}</textarea>
+</div>
+
+<div class="q-block">
+  <div class="q-text">The research team will be presenting the results of this study in a variety of formats and to a variety of audiences. With your permission, we may use short excerpts from your recorded video or images (e.g., screenshots) from your recording in presenting the information to various audiences. If you agree that we may utilize your video in presentations to others, please indicate below.</div>
+  <div class="q-choices">{{ for choice in form.video_consent }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'video_consent' }}
+</div>
+
+<div class="q-block"><strong>Please continue to the next page to be redirected back to Prolific and register your submission.</strong></div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

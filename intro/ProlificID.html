@@ -1,0 +1,15 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">
+  <div class="q-text">
+    <p style="margin-bottom:2px;">Please provide your Prolific ID in the text box below.</p>
+    <p style="margin-top:0; margin-bottom:0; font-size:15px; color:#555;">Please note that this response should auto-fill with the correct ID.</p>
+  </div>
+  <input type="text" name="prolific_id" data-wt="WALKTHROUGH" class="q-input-text" style="width:290px;"
+         value="{{ if form.prolific_id.data }}{{ form.prolific_id.data }}{{ else }}{{ default_pid }}{{ endif }}">
+  {{ formfield_errors 'prolific_id' }}
+</div>
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}<script>window.AC_ALLOW_PASTE = true;</script>{{ endblock }}

@@ -1,0 +1,28 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<div style="max-width:900px; margin:0 auto; line-height:1.5;">
+<h3 style="margin: 0px 0px 18px; font-size: 20px; color: rgb(31, 59, 115); text-align: center;"><strong>Screener 2 out of 3: Error Detection Task</strong></h3>
+
+<p>This screening task is designed to assess your attention to detail.<br />
+<br />
+You will review<strong> 10 tables </strong>containing 1s and 0s. Your job is to inspect each table carefully and <strong>identify the total number of 1s shown.</strong></p>
+
+<ul>
+	<li>For each question, enter the number of 1s in the answer box below the corresponding table.&nbsp;There is no penalty for guessing.&nbsp;</li>
+	<li>You have <strong>2&nbsp;minutes</strong> to complete the task. You can see the remaining time in the upper right corner. All tables&nbsp;will appear on a single page.</li>
+</ul>
+&nbsp;
+
+<p><strong>Your Bonus Earnings</strong></p>
+<p>This part of the study may be randomly selected to determine your bonus payment. If this is the &ldquo;part-that-counts,&rdquo; you will receive <strong>$0.10 for each question you answer correctly on this task</strong>.&nbsp;<br />&nbsp;</p>
+
+<p><strong><span style="color:#c0392b;">Reminder: No cheating is allowed on this task. </span></strong>You may not use any outside tools or assistance, including calculators, search engines, AI tools (such as ChatGPT), or help from other people. Detection of cheating or failure to follow these instructions will result in forfeiture of any bonus payment.<br />&nbsp;</p>
+
+<p><strong>On the next page, your task will begin.</strong></p>
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}<script>enforceMinSeconds(10);</script>{{ endblock }}

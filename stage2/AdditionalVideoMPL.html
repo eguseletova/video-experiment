@@ -1,0 +1,91 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div style="max-width:900px; margin:0 auto; line-height:1.5;">
+<h2 style="margin: 0px 0px 18px; font-size: 24px; color: rgb(31, 59, 115); text-align: center;"><strong>Sending an Additional Video</strong></h2>
+
+<p>You chose to send Video {{ sent_upper }} with your application.</p>
+<p>Now imagine you could send the Recruiter <strong>one extra video</strong> as well, but it costs money: the price would be taken out of your bonus.</p>
+<p>Below are different prices. For each price, tell us: <strong>would you pay this price to send an extra video?</strong></p>
+<p>The simplest way to answer: think about the most you would be willing to pay. Choose "Yes" for every price up to that amount, and "No" for every price above it.</p>
+<p style="font-size:15px; color:#555;">Example: if the most you would pay is $0.30, choose "Yes" for $0.00 to $0.30 and "No" for $0.40 and above. Clicking one row fills in the rest for you; you can still change rows.</p>
+
+<details style="margin:6px 0 16px;"><summary style="cursor:pointer; color:#1e40af;">How this affects your bonus</summary>
+<p style="margin-top:10px;">If this part is selected for your bonus, the computer randomly picks one of the prices below. If you said "Yes" to that price, it is taken out of your bonus and your extra video is sent to the Recruiter. If you said "No", nothing is taken out and only Video {{ sent_upper }} is sent. Because you don't know which price will be picked, the best strategy is to answer every row honestly.</p>
+</details>
+
+<style>
+  #mplTable tr.yes td { background: #eefaf3; }
+  #mplTable tr.no td  { background: #f4f4f4; }
+  #mplTable td { vertical-align: middle; }
+</style>
+<table class="table mpl" id="mplTable" style="max-width:700px;">
+  <thead>
+    <tr><th style="text-align:center;">Price of an extra video</th><th style="text-align:center;">Yes, I would pay this</th><th style="text-align:center;">No, I would not</th></tr>
+  </thead>
+  <tbody>
+  {{ for r in rows }}
+    <tr data-row="{{ r.i }}" data-price="{{ r.price }}">
+      <td class="price">{{ r.price }}</td>
+      <td><label><input type="radio" name="{{ r.field }}" value="1" data-row="{{ r.i }}"> Yes</label></td>
+      <td><label><input type="radio" name="{{ r.field }}" value="0" data-row="{{ r.i }}"> No</label></td>
+    </tr>
+  {{ endfor }}
+  </tbody>
+</table>
+<div id="mplSummary" style="font-size:17px; margin:4px 0 6px;"></div>
+<div id="mplNote" style="min-height:22px; font-size:15px; color:#92400e;"></div>
+<div class="field-error" id="mplError" style="display:none;">Please make a choice in every row.</div>
+
+<div class="q-block" style="margin-top:30px;">
+  <div class="q-text">If you send an extra video, which one would it be?</div>
+  <div class="q-choices">{{ for choice in form.mpl_extra_video }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'mpl_extra_video' }}
+</div>
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script>
+  // Single switching point: "pay" at a price implies "pay" at all lower prices;
+  // "do not send" at a price implies "do not send" at all higher prices.
+  // If this changes an answer the participant already gave, they are told why.
+  (function () {
+    const table = document.getElementById('mplTable');
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+    const note = document.getElementById('mplNote');
+    function val(row) { const c = row.querySelector('input:checked'); return c ? c.value : null; }
+    function setRow(row, v) { row.querySelector('input[value="' + v + '"]').checked = true; }
+    table.addEventListener('change', function (e) {
+      const i = parseInt(e.target.dataset.row, 10);
+      const price = rows[i - 1].dataset.price;
+      let changed = false;
+      rows.forEach(function (row) {
+        const j = parseInt(row.dataset.row, 10);
+        if (e.target.value === '1' && j < i && val(row) !== '1') { if (val(row) === '0') changed = true; setRow(row, '1'); }
+        if (e.target.value === '0' && j > i && val(row) !== '0') { if (val(row) === '1') changed = true; setRow(row, '0'); }
+      });
+      note.textContent = !changed ? '' : (e.target.value === '1'
+        ? 'Note: if you would pay ' + price + ', you would also pay any lower price, so the rows above were changed to "Yes".'
+        : 'Note: if you would not pay ' + price + ', you would also not pay any higher price, so the rows below were changed to "No".');
+      document.getElementById('mplError').style.display = 'none';
+      paint();
+    });
+    function paint() {
+      rows.forEach(function (r) { const v = val(r); r.classList.toggle('yes', v === '1'); r.classList.toggle('no', v === '0'); });
+      const summary = document.getElementById('mplSummary');
+      if (rows.every(val)) {
+        const yes = rows.filter(r => val(r) === '1');
+        summary.textContent = yes.length
+          ? 'Your answer: the most you would pay for an extra video is ' + yes[yes.length - 1].dataset.price + '.'
+          : 'Your answer: you would not send an extra video, even for free.';
+      } else summary.textContent = '';
+    }
+    paint();
+    document.getElementById('form').addEventListener('submit', function (e) {
+      if (rows.some(r => !val(r))) { e.preventDefault(); document.getElementById('mplError').style.display = 'block'; }
+    });
+  })();
+</script>
+{{ endblock }}

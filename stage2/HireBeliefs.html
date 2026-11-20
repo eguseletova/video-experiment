@@ -1,0 +1,40 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<div class="q-block" style="line-height:1.5;">
+  <p>You have now recorded all three videos. Please answer the following questions about each of them.</p>
+</div>
+
+{{ for v in videos }}
+<div class="q-block belief-item">
+  <div class="q-text">How likely do you think you will be hired if the Recruiter only saw <strong>Video {{ v.upper }}</strong>?</div>
+  <div style="font-size:15px; color:#555; margin-bottom:6px;">Video {{ v.upper }} prompt: {{ v.prompt }}</div>
+  <div class="q-slider">
+    <div class="slider-ticks"><span>0%</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100%</span></div>
+    <div class="slider-row">
+      <input type="range" min="0" max="100" step="1" value="0" class="untouched">
+      <span class="slider-value">&nbsp;</span>
+    </div>
+    <input type="hidden" name="hire_belief_{{ v.letter }}" class="slider-hidden" value="" data-wt="50">
+  </div>
+  <div class="field-error slider-error" style="display:none;">Please answer this question.</div>
+</div>
+{{ endfor }}
+{{ formfield_errors 'hire_belief_a' }}{{ formfield_errors 'hire_belief_b' }}{{ formfield_errors 'hire_belief_c' }}
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script>
+  document.getElementById('form').addEventListener('submit', function (e) {
+    let missing = false;
+    document.querySelectorAll('.belief-item').forEach(function (b) {
+      const h = b.querySelector('.slider-hidden');
+      const err = b.querySelector('.slider-error');
+      if (h.value === '') { missing = true; err.style.display = 'block'; } else { err.style.display = 'none'; }
+    });
+    if (missing) e.preventDefault();
+  });
+</script>
+{{ endblock }}

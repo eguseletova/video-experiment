@@ -1,0 +1,51 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ if part == 1 }}
+<div class="q-block">
+  <div class="q-text">
+    <p>This measure assesses the way that social anxiety plays a role in your life across a variety of situations. Read each situation carefully and answer two questions about that situation.</p>
+    <p>The first question asks how <strong>anxious or fearful</strong> you feel in the situation. The second question asks how often you <strong>avoid</strong> the situation. If you come across a situation that you ordinarily do not experience, we ask that you imagine "what if you were faced with that situation," and then rate the degree to which you would fear this hypothetical situation and how often you would tend to avoid it.</p>
+    <p>Please base your ratings on the way that the situations have affected you in the <strong>last week</strong>.</p>
+  </div>
+</div>
+{{ else }}
+<div class="q-block">
+  <div class="q-text">
+    <p>For each situation, please rate how <strong>anxious or fearful</strong> you feel and how often you <strong>avoid</strong> it (in the last week). If you do not ordinarily experience a situation, imagine what it would be like.</p>
+  </div>
+</div>
+{{ endif }}
+<p style="font-size:14px; color:#666; text-align:right; margin-bottom:6px;">Part {{ part }} of {{ parts }}</p>
+
+<table class="matrix" id="lsas">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="4" class="group">Fear or anxiety</th>
+      <th colspan="4" class="group">Avoidance</th>
+    </tr>
+    <tr>
+      <th></th>
+      {{ for s in fear_scale }}<th {{ if s.0 == 0 }}class="group"{{ endif }}>{{ s.1 }}</th>{{ endfor }}
+      {{ for s in avoid_scale }}<th {{ if s.0 == 0 }}class="group"{{ endif }}>{{ s.1 }}</th>{{ endfor }}
+    </tr>
+  </thead>
+  <tbody>
+  {{ for it in items }}
+    <tr>
+      <td class="item">{{ it.n }}. {{ it.text }}</td>
+      {{ for s in fear_scale }}<td {{ if s.0 == 0 }}class="group-start"{{ endif }}><input type="radio" name="{{ it.fear }}" value="{{ s.0 }}" aria-label="Fear: {{ s.1 }}"></td>{{ endfor }}
+      {{ for s in avoid_scale }}<td {{ if s.0 == 0 }}class="group-start"{{ endif }}><input type="radio" name="{{ it.avoid }}" value="{{ s.0 }}" aria-label="Avoidance: {{ s.1 }}"></td>{{ endfor }}
+    </tr>
+  {{ endfor }}
+  </tbody>
+</table>
+<div class="field-error" id="lsasError" style="display:none;">Please answer both questions for every situation (missing rows are highlighted).</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/js/matrix_required.js' }}"></script>
+<script>requireMatrix('lsas', 'lsasError');</script>
+{{ endblock }}

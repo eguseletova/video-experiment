@@ -1,0 +1,13 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block" style="max-width:900px; line-height:1.5;">
+  <p>Before you start recording, please tell us the name you would like to use in your videos.</p>
+  <p>You may use your first name or an alias (a made-up name). Please do not use your full name.</p>
+  <div class="q-text" style="margin-top:18px;">Name or alias:</div>
+  <input type="text" name="video_name" data-wt="Alex" class="q-input-text" style="width:290px;" maxlength="40"
+         value="{{ if form.video_name.data }}{{ form.video_name.data }}{{ endif }}">
+  {{ formfield_errors 'video_name' }}
+</div>
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

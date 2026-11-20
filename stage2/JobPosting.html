@@ -1,0 +1,34 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div style="max-width:900px; margin:0 auto; line-height:1.5">
+<p style="margin:0 0 12px 0;"><strong>As a Job Candidate</strong>, you are being evaluated for the position described below.</p>
+<p style="margin:0 0 12px 0;">More information about what may appear on candidate resumes will be provided on the next page.</p>
+<p style="margin:0;">&nbsp;</p>
+
+<div style="background:#ffffff; border:1px solid #d9d9d9; border-radius:6px; padding:20px; margin-bottom:24px;">
+<h2 style="margin:0 0 16px 0; font-size:22px; color:#1f3b73;">Job Posting</h2>
+<p style="margin:0 0 10px 0;"><strong>Role:</strong> Research Assistant</p>
+<p style="margin:0 0 14px 0;">We are seeking candidates for a short-term <strong>Research Assistant</strong> role. In this position, you would support a research team by helping complete routine project tasks.</p>
+<p style="margin:0 0 8px 0;"><strong>Tasks may include:</strong></p>
+<ul style="margin:0 0 14px 22px; padding:0;">
+	<li>Working with spreadsheets or research data (for example, data entry or coding)</li>
+	<li>Reviewing short scientific articles and clearly summarizing their key findings</li>
+	<li>Proofreading documents for errors, missing information, or inconsistencies</li>
+</ul>
+<p style="margin:0 0 8px 0;"><strong>Qualifications:</strong></p>
+<p style="margin:0;">This position does not require prior research experience. However, the role primarily involves <strong>quantitative analysis work (approximately 75%), along with research communication (20%) and attention to detail (5%).</strong></p>
+</div>
+
+<div style="border-left:6px solid #2f6f5f; background:#eefaf6; border:1px solid #cfeee4; border-radius:10px; padding:16px 18px;">
+<div style="font-weight:700; margin-bottom:6px;">Your Potential Bonus Earnings</div>
+<div style="margin-bottom:10px;">If this part is selected to determine your bonus payment:</div>
+<ul style="margin:0; padding-left:22px;">
+	<li>If a Recruiter recommends you for the position, you will earn an additional <b>$1</b>, on top of your participation payment.</li>
+	<li>If you are not recommended, you will earn <strong>no additional bonus</strong>&nbsp;on top of your participation payment.</li>
+</ul>
+</div>
+</div>
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}<script>enforceMinSeconds(10);</script>{{ endblock }}

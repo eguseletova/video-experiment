@@ -1,0 +1,13 @@
+{{ extends "otree/Page.html" }}
+
+{{ block global_styles }}
+<link rel="stylesheet" href="{{ static 'global/survey.css' }}">
+{{ endblock }}
+
+{{ block global_scripts }}
+{{ if session.config.walkthrough }}<script>window.WALKTHROUGH = true;</script>{{ endif }}
+{{ if session.config.anti_cheat }}<script>window.ANTI_CHEAT = true;</script>{{ endif }}
+<script src="{{ static 'global/js/anticheat.js' }}"></script>
+<script src="{{ static 'global/survey.js' }}"></script>
+<script src="{{ static 'global/js/walkthrough.js' }}"></script>
+{{ endblock }}

@@ -1,0 +1,11 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block" style="text-align:center;">
+  <p>Redirecting you to Prolific…</p>
+  <p>If you are not redirected automatically, <a href="{{ completion_url }}">click here</a>.</p>
+</div>
+{{ endblock }}
+{{ block scripts }}
+<script>setTimeout(function () { window.location.href = "{{ completion_url }}"; }, 1000);</script>
+{{ endblock }}

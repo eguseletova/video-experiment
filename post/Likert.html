@@ -1,0 +1,48 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block"><div class="q-text">{{ instructions|safe }}</div></div>
+
+<table class="matrix" id="likert">
+  <thead>
+    <tr><th></th>{{ for s in scale }}<th>{{ s.1 }}</th>{{ endfor }}</tr>
+  </thead>
+  <tbody>
+  {{ for r in rows }}
+    <tr data-field="{{ r.field }}">
+      <td class="item">{{ r.n }}. {{ r.text }}</td>
+      {{ for s in scale }}<td><input type="radio" name="{{ r.field }}" value="{{ s.0 }}" aria-label="{{ s.1 }}"></td>{{ endfor }}
+    </tr>
+  {{ endfor }}
+  </tbody>
+</table>
+<div class="field-error" id="likertError" style="display:none;">Please answer all statements (missing rows are highlighted).</div>
+
+{{ if gad }}
+<div class="q-block" id="gadDifficulty" style="margin-top:30px; display:none;">
+  <div class="q-text">If you checked off any problems, how difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?</div>
+  <div class="q-choices">{{ for choice in form.gad_difficulty }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+</div>
+{{ endif }}
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/js/matrix_required.js' }}"></script>
+<script>
+  requireMatrix('likert', 'likertError');
+  // GAD-7: the difficulty item is shown once any problem is checked (score > 0)
+  (function () {
+    const box = document.getElementById('gadDifficulty');
+    if (!box) return;
+    const table = document.getElementById('likert');
+    function update() {
+      const any = Array.from(table.querySelectorAll('input:checked')).some(i => i.value !== '0');
+      box.style.display = any ? 'block' : 'none';
+      if (!any) box.querySelectorAll('input').forEach(i => { i.checked = false; });
+    }
+    table.addEventListener('change', update);
+    update();
+  })();
+</script>
+{{ endblock }}

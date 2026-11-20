@@ -1,0 +1,69 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+<div class="q-block">
+  <div class="q-text">What is your age?</div>
+  <input type="text" name="age" id="ageInput" class="q-input-text" style="width:90px;" value="{{ if form.age.data }}{{ form.age.data }}{{ endif }}">
+  {{ formfield_errors 'age' }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">What is the highest level of school you have completed or the highest degree you have received?</div>
+  <div class="q-choices">{{ for choice in form.education }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'education' }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">What is your gender?</div>
+  <div class="q-choices">
+    {{ for choice in form.gender }}
+    <label class="q-choice">{{ choice }} {{ choice.label.text }}
+      {{ if choice.data == 4 }}<input type="text" name="gender_text" class="q-input-text inline-text" value="{{ if form.gender_text.data }}{{ form.gender_text.data }}{{ endif }}">{{ endif }}
+    </label>
+    {{ endfor }}
+  </div>
+  {{ formfield_errors 'gender' }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">Are you of Hispanic, Latino/a, or Spanish origin?</div>
+  <div class="q-choices">{{ for choice in form.shl }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'shl' }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">What is your race? (Select all that apply)</div>
+  <div class="q-choices" id="raceChoices">
+    <label class="q-choice">{{ form.race_1 }} American Indian or Alaskan Native</label>
+    <label class="q-choice">{{ form.race_2 }} Asian</label>
+    <label class="q-choice">{{ form.race_3 }} Black or African American</label>
+    <label class="q-choice">{{ form.race_4 }} Native Hawaiian or Other Pacific Islander</label>
+    <label class="q-choice">{{ form.race_5 }} White</label>
+    <label class="q-choice">{{ form.race_6 }} Other (please specify):
+      <input type="text" name="race_6_text" class="q-input-text inline-text" value="{{ if form.race_6_text.data }}{{ form.race_6_text.data }}{{ endif }}"></label>
+    <label class="q-choice">{{ form.race_7 }} Prefer not to say</label>
+  </div>
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script>
+  // "Prefer not to say" is exclusive (Qualtrics ExclusiveAnswer).
+  (function () {
+    const boxes = Array.from(document.querySelectorAll('#raceChoices input[type=checkbox]'));
+    const exclusive = document.querySelector('#raceChoices input[name=race_7]');
+    boxes.forEach(b => b.addEventListener('change', function () {
+      if (!this.checked) return;
+      if (this === exclusive) boxes.forEach(o => { if (o !== exclusive) o.checked = false; });
+      else exclusive.checked = false;
+    }));
+  })();
+  // Age: Qualtrics "Request Response" (soft prompt).
+  document.getElementById('form').addEventListener('submit', function (e) {
+    if (document.getElementById('ageInput').value.trim() === '') {
+      if (!confirm('There is 1 unanswered question on this page. Would you like to continue?')) e.preventDefault();
+    }
+  });
+</script>
+{{ endblock }}

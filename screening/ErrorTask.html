@@ -1,0 +1,25 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<div id="fixedTimer">Time Remaining: <span id="timerValue">2:00</span></div>
+
+<h2><strong>Error Detection Task</strong></h2>
+<hr class="q-sep">
+
+{{ for t in tables }}
+<div class="q-block">
+  <table class="bit-table"><tbody>
+    {{ for row in t.rows }}<tr>{{ for cell in row }}<td>{{ cell }}</td>{{ endfor }}</tr>{{ endfor }}
+  </tbody></table>
+  <div style="margin-left:40px;">&nbsp;</div>
+  <div class="q-text">How many 1's are in the table above?</div>
+  <input type="text" inputmode="numeric" name="{{ t.key }}" class="q-input-text bit-answer">
+</div>
+<hr class="q-sep">
+{{ endfor }}
+
+<input type="hidden" name="error_focus_lost" data-ac="focus_lost" value="0">
+<input type="hidden" name="error_copy_paste" data-ac="copy_paste" value="0">
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}

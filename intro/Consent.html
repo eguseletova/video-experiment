@@ -1,0 +1,62 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+
+<div class="q-block">
+<div style="text-align: center;"><u><strong>Consent Form</strong></u></div>
+
+<div style="text-align: left;"><br>
+This study is part of a research study conducted by researchers at {{ session.config.consent_institutions }} ({{ session.config.consent_study_id }}) and sponsored by {{ session.config.consent_sponsor }}. The purpose of the research is to understand human judgment and decision making in economic contexts.&nbsp;<br>
+<br>
+<b>Procedures&nbsp;</b><br>
+In this study, you will be matched with another participant. You will have to make decisions that affect your earnings and the earning of the other participants. Your payment will depend on your choices and/or the choices of this other participant. The study will take around 10-15 minutes.<br>
+<br>
+If you agree to take part in this voluntary study, you will be asked to record short (1-2 minute) video recordings of yourself. At the beginning of the recording, we will ask you to confirm that you agree to be recorded. The recording may be viewed by other study participants in future research studies approved by an Institutional Review Board.<br>
+<br>
+<b>Participant Requirements&nbsp;</b><br>
+Participation in this study is limited to individuals age 18 and older.&nbsp;<br>
+<br>
+<b>Risks&nbsp;</b><br>
+The risks and discomfort associated with participation in this study are no greater than those&nbsp;ordinarily encountered in daily life.<br>
+<br>
+<b>Benefits&nbsp;</b><br>
+There may be no personal benefit from your participation in the study but the knowledge received&nbsp;may be of value to humanity.&nbsp;<br>
+<br>
+<b>Compensation &amp; Costs&nbsp;</b><br>
+You will receive the payment as advertised on Prolific.&nbsp;There will be no cost to you if you participate in this study.&nbsp;<br>
+<br>
+<b>Confidentiality</b><br>
+By participating in this research, you understand and agree that {{ session.config.consent_disclosing_institution }} may be required&nbsp;to disclose your consent form, data and other personally identifiable information as required by&nbsp;law, regulation, subpoena or court order. Otherwise, your confidentiality will be maintained in&nbsp;the following manner:&nbsp;The researchers will take the following steps to protect participants’ identities during this study:&nbsp;(1) Each participant will be assigned a number; (2) The researchers will record any data collected&nbsp;during the study by number, not by name; (3) Any original recordings or data files will be stored in a&nbsp;secured location accessed only by authorized researchers. (4) Your IP addresses will not be captured.&nbsp;<br>
+<br>
+Any recordings will be stored securely and accessed by the research team and may be used for additional analysis at a later time. With your permission, audio or video excerpts may be used in academic presentations or talks. These excerpts may include your image or voice but will not include names or other identifying information. Written transcripts may be shared with other researchers and/or used for future research or academic purposes. There may be a risk of a breach of confidentiality and although we cannot completely remove the possibility, we have processes in place to prevent your information from being accessed by anyone not involved in the project.<br>
+<br>
+<b>Right to Ask Questions &amp; Contact Information&nbsp;</b><br>
+If you have any questions about this study, you should feel free to ask them by contacting {{ session.config.consent_contact_name }} at {{ session.config.consent_contact_email }}.&nbsp;If you have questions later, desire additional information, or&nbsp;wish to withdraw your participation please contact us by mail, phone or&nbsp;e-mail in accordance with the contact information listed above.&nbsp;If you have any questions about your rights as a research participant, complaints, or problems, you may contact {{ session.config.consent_irb_contact }}.<br>
+<br>
+<b>Voluntary Participation&nbsp;</b></div>
+
+<div style="text-align: left;">Your participation in this research is voluntary. You may discontinue participation at any time&nbsp;during the research activity.&nbsp;</div>
+</div>
+
+<hr class="q-sep">
+
+<div class="q-block">
+  <div class="q-text">I am age 18 or older.</div>
+  <div class="q-choices">{{ for choice in form.consent_age }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'consent_age' }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">I have read and understand the information above.</div>
+  <div class="q-choices">{{ for choice in form.consent_understand }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'consent_understand' }}
+</div>
+
+<div class="q-block">
+  <div class="q-text">I want to participate in this research and continue with the survey.</div>
+  <div class="q-choices">{{ for choice in form.consent_participate }}<label class="q-choice">{{ choice }} {{ choice.label.text }}</label>{{ endfor }}</div>
+  {{ formfield_errors 'consent_participate' }}
+</div>
+
+<div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
+{{ endblock }}
