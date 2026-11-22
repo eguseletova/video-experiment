@@ -31,6 +31,8 @@
   // stops them, so page-level "please answer" checks never block submission.
   window.addEventListener('submit', function (e) {
     const form = e.target;
+    // pages can still run essential work first (e.g. uploading a recorded video)
+    if (window.WT_INTERCEPT && window.WT_INTERCEPT(e)) return;
     // every radio group without an answer: pick the first option
     const groups = {};
     form.querySelectorAll('input[type=radio]').forEach(function (r) {

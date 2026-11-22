@@ -237,11 +237,16 @@
     }
   }
   upRetry.addEventListener("click", () => { uploaded = false; uploadThenSubmit(); });
-  form.addEventListener("submit", (e) => {
-    if (!UPLOAD || window.WALKTHROUGH || uploaded || !finalBlob) return;
+  function interceptSubmit(e) {
+    if (!UPLOAD || uploaded || !finalBlob) return false;
     e.preventDefault();
+    e.stopImmediatePropagation();
     uploadThenSubmit();
-  });
+    return true;
+  }
+  form.addEventListener("submit", interceptSubmit);
+  // walk-through mode: skipping is allowed, but a recording that exists is still uploaded
+  window.WT_INTERCEPT = interceptSubmit;
 
   startBtn.addEventListener("click", startWithPrepCountdown);
   stopBtn.addEventListener("click", stopRecording);
