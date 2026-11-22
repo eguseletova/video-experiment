@@ -1,0 +1,18 @@
+<div class="opt-widget">
+  <div id="optPrompt" style="margin-bottom:8px; font-weight:600;">{{ if practice }}Practice: enter a number between 0 and 300.{{ else }}Type a number and hit enter.{{ endif }}</div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <input type="number" id="optGuess" step="any" min="0" max="300" autocomplete="off"
+           style="width:160px; font-size:17px; padding:6px 8px;">
+    <button type="button" id="optEnter" style="font-size:16px; padding:7px 16px;">{{ if practice }}Enter Practice Guess{{ else }}Enter{{ endif }}</button>
+  </div>
+  <div id="optWarning" class="field-error" style="display:none;">Your guess must be between 0 and 300.</div>
+  <table id="optHistory" class="opt-history">
+    <thead><tr><th>Guess #</th><th>Your guess</th><th>Result</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</div>
+<style>
+  .opt-history { border-collapse: collapse; margin-top: 14px; min-width: 360px; font-size: 16px; }
+  .opt-history th, .opt-history td { border: 1px solid #ddd; padding: 5px 12px; text-align: right; }
+  .opt-history th { background: #f5f5f5; text-align: center; }
+</style>

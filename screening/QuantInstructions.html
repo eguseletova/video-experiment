@@ -5,24 +5,70 @@
 <div style="max-width:900px; margin:0 auto; line-height:1.5;">
 <h3 style="margin: 0px 0px 18px; font-size: 20px; color: rgb(31, 59, 115); text-align: center;"><strong>Screener 1 out of 3: Quantitative Analysis Task</strong></h3>
 
-<p>This screening task is designed to assess your quantitative and analytical skills.&nbsp;<br />
-<br />
-You will answer <strong>10 multiple-choice questions </strong>based on quantitative and analytical reasoning.&nbsp;</p>
+<p>The goal of this task is to try to find the number (between 0 and 300) that results in your computer returning the biggest possible value. You will have {{ max_guesses }} guesses. A guess can be any number between 0 and 300.</p>
 
-<ul>
-	<li><p>You have <strong>3 minutes</strong> to complete the task. You can see the remaining time in the upper right corner. All questions will appear on a single page.</p></li>
-	<li><p>There is no penalty for guessing.&nbsp;</p></li>
-</ul>
-&nbsp;
+<p>After you enter your guess, the computer will give you back a number. There is a systematic relationship between the number you guess, and the number you receive, but the relationship may be difficult to understand. Usually, numbers that are close to each other will receive very similar outputs.</p>
 
-<p><strong>Your Bonus Earnings</strong></p>
-<p>This part of the study may be randomly selected to determine your bonus payment. If this is the &ldquo;part-that-counts,&rdquo; you will receive <strong>$0.10 for each question you answer correctly on this task</strong>.&nbsp;<br />&nbsp;</p>
+<p>After your {{ max_guesses }} guesses, you will be asked to enter the number that you believe gives the highest response. <strong>It is only this final answer that determines your score!</strong></p>
 
-<p><strong><span style="color:#c0392b;">Reminder: No cheating is allowed on this task. </span></strong>You may not use any outside tools or assistance, including calculators, search engines, AI tools (such as ChatGPT), or help from other people. Detection of cheating or failure to follow these instructions will result in forfeiture of any bonus payment.<br />&nbsp;</p>
+<h4 style="margin-top:26px; font-size:18px;">Practice</h4>
+<p>Let's start with a practice. Say the underlying relationship (which you won't know) looks like this:</p>
+<svg id="optExample" viewBox="0 0 520 260" style="width:100%; max-width:520px; display:block; margin:6px 0 10px;"></svg>
+<p>In this example, you get the biggest result when you enter 240. Practice entering numbers, and look at the results.</p>
+
+{{ include "screening/OptWidget.html" }}
+<div class="field-error" id="practiceAlert" style="display:none;">Enter a number between 0 and 300 before continuing!</div>
+
+<p style="margin-top:26px;">Now, you will do the optimization task {{ rounds }} separate times. Each time, there will be a different underlying relationship. Each time, you will have {{ max_guesses }} guesses to try to find a number that gives you a big value in return.</p>
+<p>This task isn't timed, but most people take less than ten minutes in total.</p>
+
+<p style="margin-top:22px;"><strong>Your Bonus Earnings</strong></p>
+<p>This part of the study may be randomly selected to determine your bonus payment. If this is the &ldquo;part-that-counts,&rdquo; you will receive <strong>up to $0.30 for each of the {{ rounds }} rounds: the closer the result of your final answer is to the biggest possible value, the more you earn</strong>.</p>
+
+<p><strong><span style="color:#c0392b;">Reminder: No cheating is allowed on this task. </span></strong>You may not use any outside tools or assistance, including calculators, search engines, AI tools (such as ChatGPT), or help from other people. Detection of cheating or failure to follow these instructions will result in forfeiture of any bonus payment.</p>
 
 <p><strong>On the next page, your task will begin.</strong></p>
 </div>
 
 <div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
 {{ endblock }}
-{{ block scripts }}<script>enforceMinSeconds(10);</script>{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/js/optimization.js' }}?v={{ session.config.asset_version }}"></script>
+<script>
+  enforceMinSeconds(10);
+  // Example graph of the practice relationship (their function-example.png, redrawn)
+  (function () {
+    const pts = {{ curve }};
+    const svg = document.getElementById('optExample');
+    const W = 520, H = 260, L = 44, R = 12, T = 12, B = 34;
+    const ys = pts.map(p => p[1]), ymin = Math.min(...ys), ymax = Math.max(...ys);
+    const sx = x => L + (x / 300) * (W - L - R);
+    const sy = y => T + (1 - (y - ymin) / (ymax - ymin)) * (H - T - B);
+    const NS = 'http://www.w3.org/2000/svg';
+    function el(tag, attrs, text) {
+      const e = document.createElementNS(NS, tag);
+      for (const k in attrs) e.setAttribute(k, attrs[k]);
+      if (text !== undefined) e.textContent = text;
+      svg.appendChild(e); return e;
+    }
+    el('line', {x1: L, y1: H - B, x2: W - R, y2: H - B, stroke: '#888'});
+    el('line', {x1: L, y1: T, x2: L, y2: H - B, stroke: '#888'});
+    [0, 50, 100, 150, 200, 250, 300].forEach(function (x) {
+      el('line', {x1: sx(x), y1: H - B, x2: sx(x), y2: H - B + 5, stroke: '#888'});
+      el('text', {x: sx(x), y: H - B + 19, 'text-anchor': 'middle', 'font-size': 12, fill: '#444'}, x);
+    });
+    el('text', {x: (L + W - R) / 2, y: H - 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#444'}, 'Your guess');
+    el('text', {x: 12, y: (T + H - B) / 2, 'text-anchor': 'middle', 'font-size': 12, fill: '#444',
+                transform: 'rotate(-90 12 ' + (T + H - B) / 2 + ')'}, 'Result');
+    el('polyline', {points: pts.map(p => sx(p[0]) + ',' + sy(p[1])).join(' '), fill: 'none',
+                    stroke: '#1e40af', 'stroke-width': 2.5});
+  })();
+  const practice = OptTask({ practice: true, maxGuesses: {{ max_guesses }}, prior: [] });
+  document.getElementById('form').addEventListener('submit', function (e) {
+    if (practice.count() === 0) {
+      e.preventDefault();
+      document.getElementById('practiceAlert').style.display = 'block';
+    }
+  });
+</script>
+{{ endblock }}

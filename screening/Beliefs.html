@@ -3,6 +3,21 @@
 {{ block content }}
 <div class="q-block">Before proceeding, please answer the following questions.</div>
 
+{{ if optimization }}
+<div class="q-block">
+  <div class="q-text">On the <strong>{{ task }}</strong> task, your score in each round depends on how close the result of your final answer was to the biggest possible value (100% = you found the biggest possible value). On average across the 3 rounds, what score do you think you achieved?</div>
+  <div class="q-slider">
+    <div class="slider-ticks"><span>0%</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100%</span></div>
+    <div class="slider-row">
+      <input type="range" min="0" max="100" step="1" value="0" class="untouched">
+      <span class="slider-value">&nbsp;</span>
+    </div>
+    <input type="hidden" name="{{ f_correct }}" id="score-hidden" value="" data-wt="50">
+  </div>
+  <div class="field-error" id="score-error" style="display:none;">Please answer this question.</div>
+  {{ formfield_errors f_correct }}
+</div>
+{{ else }}
 <div class="q-block">
   <div class="q-text">
     {{ if reader }}
@@ -20,6 +35,7 @@
   </select>
   {{ formfield_errors f_correct }}
 </div>
+{{ endif }}
 
 <div class="q-block">
   <div class="q-text">What percentage of participants working on the <strong>{{ task }}</strong>&nbsp;task do you think you outperformed?</div>
@@ -44,6 +60,11 @@
     if (document.getElementById('pct-hidden').value === '') {
       e.preventDefault();
       document.getElementById('pct-error').style.display = 'block';
+    }
+    const sh = document.getElementById('score-hidden');
+    if (sh && sh.value === '') {
+      e.preventDefault();
+      document.getElementById('score-error').style.display = 'block';
     }
   });
 </script>

@@ -1,0 +1,37 @@
+{{ extends "global/Page.html" }}
+{{ block title }}{{ endblock }}
+{{ block content }}
+{{ include "global/DevCheck.html" }}
+<div style="max-width:900px; margin:0 auto; line-height:1.5;">
+<h3 style="margin: 0px 0px 18px; font-size: 20px; color: rgb(31, 59, 115); text-align: center;"><strong>Quantitative Analysis Task: Round {{ round }} of 3</strong></h3>
+
+{{ include "screening/OptWidget.html" }}
+
+<details style="margin-top:20px;">
+  <summary style="cursor:pointer; color:#1e40af;">Review instructions</summary>
+  <div style="margin-top:8px;">
+    <p>The goal of this task is to try to find the number (between 0 and 300) that results in your computer returning the biggest possible value. You will have {{ max_guesses }} guesses. A guess can be any number between 0 and 300.</p>
+    <p>After you enter your guess, the computer will give you back a number. There is a systematic relationship between the number you guess, and the number you receive, but the relationship may be difficult to understand. Usually, numbers that are close to each other will receive very similar outputs.</p>
+    <p>After your {{ max_guesses }} guesses, you will be asked to enter the number that you believe gives the highest response. It is only this final answer that determines your score!</p>
+  </div>
+</details>
+</div>
+
+<div id="optFinalModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center;">
+  <div style="background:#fff; max-width:520px; margin:16px; padding:22px 24px; border-radius:8px; line-height:1.5;">
+    <p>Your next guess is your final answer. Remember, it is only this final guess that matters for your score. Based on your previous {{ max_guesses }} guesses, type the number that you think will result in the biggest value.</p>
+    <div style="text-align:right;"><button type="button" id="optFinalOk">Ok</button></div>
+  </div>
+</div>
+
+<input type="hidden" name="opt{{ round }}_focus_lost" data-ac="focus_lost" value="0">
+<input type="hidden" name="opt{{ round }}_copy_paste" data-ac="copy_paste" value="0">
+<div class="nav-row"><button id="NextButton" type="submit" style="display:none;">&rarr;</button></div>
+{{ endblock }}
+{{ block scripts }}
+<script src="{{ static 'global/js/optimization.js' }}?v={{ session.config.asset_version }}"></script>
+<script>
+  OptTask({ practice: false, maxGuesses: {{ max_guesses }}, prior: {{ prior }},
+            finalDone: {{ if has_final }}true{{ else }}false{{ endif }} });
+</script>
+{{ endblock }}
