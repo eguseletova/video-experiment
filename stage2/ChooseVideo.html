@@ -35,7 +35,7 @@
 <div class="nav-row"><button id="NextButton" type="submit" disabled>&rarr;</button></div>
 {{ endblock }}
 {{ block scripts }}
-<script src="{{ static 'global/js/video_store.js' }}"></script>
+<script src="{{ static 'global/js/video_store.js' }}?v={{ session.config.asset_version }}"></script>
 <script>
   // Replay: load each recording from this browser's IndexedDB (cosmetic; no server storage).
   document.querySelectorAll('.player-slot').forEach(async function (slot) {

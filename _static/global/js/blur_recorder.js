@@ -34,6 +34,7 @@
   let prepTimerId = null, rafId = null, blobUrl = null, recStart = 0;
   let takes = 0;
   let finalBlob = null, uploaded = false, uploading = false, uploadFailures = 0;
+  let submitAfterStop = false;  // Next clicked while recording (walk-through mode)
 
   function setStatus(m) { statusEl.textContent = m; }
   function fmt(s) { const m = Math.floor(s / 60), r = s % 60; return m + ":" + (r < 10 ? "0" : "") + r; }
@@ -132,6 +133,7 @@
         setStatus("Recording complete. This is your final recording for this video. Click Next to continue.");
       }
       nextBtn.disabled = false;
+      if (submitAfterStop) { submitAfterStop = false; uploadThenSubmit(); }
     };
     recorder.start();
   }
@@ -238,7 +240,17 @@
   }
   upRetry.addEventListener("click", () => { uploaded = false; uploadThenSubmit(); });
   function interceptSubmit(e) {
-    if (!UPLOAD || uploaded || !finalBlob) return false;
+    if (!UPLOAD || uploaded) return false;
+    if (recorder && recorder.state === "recording") {
+      // finish the recording first, then upload and continue
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      submitAfterStop = true;
+      recorder.stop();
+      return true;
+    }
+    if (uploading) { e.preventDefault(); e.stopImmediatePropagation(); return true; }
+    if (!finalBlob) return false;
     e.preventDefault();
     e.stopImmediatePropagation();
     uploadThenSubmit();

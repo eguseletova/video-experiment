@@ -46,6 +46,6 @@
 <div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
 {{ endblock }}
 {{ block scripts }}
-<script src="{{ static 'global/js/matrix_required.js' }}"></script>
+<script src="{{ static 'global/js/matrix_required.js' }}?v={{ session.config.asset_version }}"></script>
 <script>requireMatrix('lsas', 'lsasError');</script>
 {{ endblock }}

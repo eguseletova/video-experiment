@@ -108,7 +108,7 @@
     });
   })();
 </script>
-<script src="{{ static 'global/js/blur_camera.js' }}"></script>
-<script src="{{ static 'global/js/video_store.js' }}"></script>
-<script src="{{ static 'global/js/blur_recorder.js' }}"></script>
+<script src="{{ static 'global/js/blur_camera.js' }}?v={{ session.config.asset_version }}"></script>
+<script src="{{ static 'global/js/video_store.js' }}?v={{ session.config.asset_version }}"></script>
+<script src="{{ static 'global/js/blur_recorder.js' }}?v={{ session.config.asset_version }}"></script>
 {{ endblock }}

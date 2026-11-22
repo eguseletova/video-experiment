@@ -81,6 +81,6 @@
 <div class="nav-row"><button id="NextButton" type="submit">&rarr;</button></div>
 {{ endblock }}
 {{ block scripts }}
-<script src="{{ static 'global/js/blur_camera.js' }}"></script>
-<script src="{{ static 'global/js/av_check.js' }}"></script>
+<script src="{{ static 'global/js/blur_camera.js' }}?v={{ session.config.asset_version }}"></script>
+<script src="{{ static 'global/js/av_check.js' }}?v={{ session.config.asset_version }}"></script>
 {{ endblock }}
