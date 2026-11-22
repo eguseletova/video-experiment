@@ -49,14 +49,14 @@ SESSION_CONFIGS = [
         COMMON,
         name='video_experiment',
         display_name='Video Experiment — Version 1: CV prompts',
-        num_demo_participants=3,
+        num_demo_participants=1,
         prompt_set='cv',
     ),
     dict(
         COMMON,
         name='video_experiment_goals',
         display_name='Video Experiment — Version 2: goal prompts (competent / likeable / hired)',
-        num_demo_participants=3,
+        num_demo_participants=1,
         prompt_set='goals',
     ),
     dict(
