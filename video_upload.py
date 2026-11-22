@@ -316,6 +316,8 @@ _worker_lock = threading.Lock()
 
 
 def _log(filename, status, detail=''):
+    # also to stdout, so it shows in the server logs (e.g. Render's Logs tab)
+    print(f'[video_upload] {filename}: {status} {detail}', flush=True)
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     new = not LOG.exists()
     with LOG.open('a', newline='') as f:
@@ -456,11 +458,13 @@ def live_method(player, data):
             meta.unlink(missing_ok=True)
             setattr(player, f'video_{letter}_uploaded', True)
             setattr(player, f'video_{letter}_file', final.name)
+            _log(final.name, 'received', f'{info["size"]} bytes')
             enqueue(final)
             return reply(type='stored', letter=letter)
 
         return reply(type='error', message='unknown message')
     except Exception as e:
+        print(f'[video_upload] error: {e!r}', flush=True)
         return reply(type='error', message=str(e)[:200])
 
 
