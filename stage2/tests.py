@@ -18,7 +18,6 @@ class PlayerBot(Bot):
         yield VideoC, dict(video_c_recorded=True, video_c_seconds=12.2, video_c_takes=2)
         expect(self.player.field_maybe_none('video_a_uploaded'), True)
         expect(self.player.video_a_file, 'in', ' '.join(__import__('os').listdir('video_uploads/pending')))
-        expect('CHECK', 'in', self.html)
         expect(C.PROMPT_SETS[self.session.config['prompt_set']]['b'], 'in', self.html)
         yield HireBeliefs, dict(hire_belief_a=60, hire_belief_b=45, hire_belief_c=70)
         yield SubmissionMustFail(HireRanking, dict(rank_a=1, rank_b=1, rank_c=3))

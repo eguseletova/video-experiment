@@ -31,8 +31,6 @@ COMMON = dict(
     **STUDY,
     # Changes with every deploy so browsers load the current scripts (cache busting)
     asset_version=(environ.get('RENDER_GIT_COMMIT') or str(int(__import__('time').time())))[:10],
-    # Developer mode: shows a bold red "CHECK" marker on pages flagged for review.
-    dev_mode=True,
     # Participants are screened out once they have failed this many attention checks
     # (2 = must fail both; Prolific only allows rejections after 2 failed checks).
     attention_fails_to_exclude=2,

@@ -1,7 +1,6 @@
 {{ extends "global/Page.html" }}
 {{ block title }}{{ endblock }}
 {{ block content }}
-{{ include "global/DevCheck.html" }}
 <div style="max-width:900px; margin:0 auto; line-height:1.5;">
 <h3 style="margin: 0px 0px 18px; font-size: 20px; color: rgb(31, 59, 115); text-align: center;"><strong>Screener 1 out of 3: Quantitative Analysis Task</strong></h3>
 
@@ -20,7 +19,7 @@
 <div class="field-error" id="practiceAlert" style="display:none;">Enter a number between 0 and 300 before continuing!</div>
 
 <p style="margin-top:26px;">Now, you will do the optimization task {{ rounds }} separate times. Each time, there will be a different underlying relationship. Each time, you will have {{ max_guesses }} guesses to try to find a number that gives you a big value in return.</p>
-<p>This task isn't timed, but most people take less than ten minutes in total.</p>
+<p>This task isn't timed.</p>
 
 <p style="margin-top:22px;"><strong>Your Bonus Earnings</strong></p>
 <p>This part of the study may be randomly selected to determine your bonus payment. If this is the &ldquo;part-that-counts,&rdquo; you will receive <strong>up to $0.30 for each of the {{ rounds }} rounds: the closer the result of your final answer is to the biggest possible value, the more you earn</strong>.</p>

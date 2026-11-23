@@ -89,7 +89,6 @@ body {
 .yn-table td { padding: 8px 18px; }
 
 /* Developer-mode review marker */
-.dev-check { color: #dc2626; font-weight: 800; font-size: 28px; letter-spacing: 1px; margin-bottom: 14px; }
 
 /* Important privacy cautions: light red */
 .privacy-box {
